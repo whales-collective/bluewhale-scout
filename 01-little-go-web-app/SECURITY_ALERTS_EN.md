@@ -19,9 +19,9 @@ Upload Scout SARIF report  (github/codeql-action/upload-sarif@v4)
   GitHub Security Tab
 ```
 
-## No workflow changes needed
+## Workflow configuration
 
-Your workflow already contains everything required:
+The workflow is configured to **fail the job** when Docker Scout detects Critical or High severity vulnerabilities. This triggers a GitHub workflow failure notification email automatically.
 
 ```yaml
 - name: Run Docker Scout vulnerability scan
@@ -30,14 +30,34 @@ Your workflow already contains everything required:
     command: cves
     image: ...
     sarif-file: scout-results.sarif
+    write-comment: false
+    exit-code: true           # fails the step if vulnerabilities are found
+    only-severities: critical,high  # only for Critical and High severities
 
 - name: Upload Scout SARIF report
   uses: github/codeql-action/upload-sarif@v4
-  if: always()
+  if: always()                # runs even if the scan step fails
   with:
     sarif_file: scout-results.sarif
     category: docker-scout
 ```
+
+### Key parameters
+
+| Parameter | Value | Effect |
+|---|---|---|
+| `exit-code` | `true` | Fails the workflow step if CVEs are found |
+| `only-severities` | `critical,high` | Filters to Critical and High only |
+
+### Email notification on failure
+
+When the scan step fails, GitHub sends a workflow failure notification email to anyone watching the repository with **"Failed workflows"** notifications enabled:
+
+```
+Profile > Settings > Notifications > GitHub Actions
+```
+
+Enable **"Send notifications for failed workflows only"** to receive targeted alerts.
 
 ## Enabling GitHub Security Alerts
 

@@ -60,6 +60,8 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           sarif-file: scout-results.sarif
           write-comment: false
+          exit-code: true
+          only-severities: critical,high
 
       - name: Upload Scout SARIF report
         uses: github/codeql-action/upload-sarif@v4
