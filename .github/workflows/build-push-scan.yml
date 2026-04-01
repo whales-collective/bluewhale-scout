@@ -20,13 +20,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v3.6.1
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v3.3.0
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -42,7 +42,7 @@ jobs:
           echo "Release version: ${VERSION}"
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6.7.0
         with:
           context: ${{ env.WORKING_DIRECTORY }}
           push: true
@@ -53,7 +53,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Run Docker Scout vulnerability scan
-        uses: docker/scout-action@v1
+        uses: docker/scout-action@v1.14.0
         with:
           command: cves
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
@@ -61,21 +61,21 @@ jobs:
           write-comment: false
 
       - name: Upload Scout SARIF report
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3.28.0
         if: always()
         with:
           sarif_file: scout-results.sarif
           category: docker-scout
 
       - name: Run Docker Scout CVE report to console
-        uses: docker/scout-action@v1
+        uses: docker/scout-action@v1.14.0
         with:
           command: cves
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           write-comment: false
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
