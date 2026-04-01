@@ -1,0 +1,101 @@
+{
+	"workbench.iconTheme": "material-icon-theme",
+	"workbench.colorTheme": "GitHub Light Monochrome Focused",
+	"editor.fontSize": 14,
+	"terminal.integrated.fontSize": 14,
+	"editor.insertSpaces": true,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": true,
+	"files.autoSave": "afterDelay",
+	"files.autoSaveDelay": 1000,
+	// "editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"workbench.tree.indent": 20,
+	//"workbench.activityBar.location": "top",
+	"workbench.editor.showTabs": "multiple",
+	"window.zoomLevel": 0.0,
+	"[markdown]": {
+		"editor.unicodeHighlight.ambiguousCharacters": false,
+		"editor.unicodeHighlight.invisibleCharacters": false,
+		"diffEditor.ignoreTrimWhitespace": false,
+		"editor.fontWeight": "normal",
+		"editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace",
+		"editor.fontSize": 14,
+		"editor.wordWrap": "on",
+		"editor.quickSuggestions": {
+			"comments": "off",
+			"strings": "off",
+			"other": "off"
+		}
+	},
+	"markdown.preview.fontSize": 14,
+	"workbench.editorAssociations": {
+		"*.md": "vscode.markdown.preview.editor"
+	},
+	"markdown.marp.html": "all",
+	"[dockerfile]": {
+		"editor.fontSize": 14
+	},
+	"[dockercompose]": {
+		"editor.fontSize": 14
+	},
+	"[json]": {
+		"editor.fontSize": 14
+	},
+	"[yaml]": {
+		"editor.fontSize": 14
+	},
+	"[go]": {
+		"editor.fontSize": 14,
+		"editor.defaultFormatter": "golang.go",
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		}
+	},
+	"go.lintTool": "golangci-lint",
+	"go.lintOnSave": "package",
+	"go.formatTool": "goimports",
+	"go.useLanguageServer": true,
+	"gopls": {
+		"ui.semanticTokens": true,
+		"ui.completion.usePlaceholders": true
+	},
+	"todohighlight.keywords": [
+		{
+			"text": "HELPERS:",
+			"color": "#ffffff",
+			"backgroundColor": "#4503E0",
+			"border": "1px solid #4503E0",
+			"borderRadius": "3px",
+			"isWholeLine": false
+		},
+		{
+			"text": "NOTE:",
+			"color": "#ffffff",
+			"backgroundColor": "#0062FF",
+			"border": "1px solid #0062FF",
+			"borderRadius": "3px",
+			"isWholeLine": false
+		}
+	],
+	"workbench.colorCustomizations": {
+		"activityBar.activeBackground": "#e0b39e",
+		"activityBar.background": "#e0b39e",
+		"activityBar.foreground": "#15202b",
+		"activityBar.inactiveForeground": "#15202b99",
+		"activityBarBadge.background": "#2e914e",
+		"activityBarBadge.foreground": "#e7e7e7",
+		"commandCenter.border": "#15202b99",
+		"sash.hoverBorder": "#e0b39e",
+		"statusBar.background": "#d49577",
+		"statusBar.foreground": "#15202b",
+		"statusBarItem.hoverBackground": "#c87750",
+		"statusBarItem.remoteBackground": "#d49577",
+		"statusBarItem.remoteForeground": "#15202b",
+		"titleBar.activeBackground": "#d49577",
+		"titleBar.activeForeground": "#15202b",
+		"titleBar.inactiveBackground": "#d4957799",
+		"titleBar.inactiveForeground": "#15202b99"
+	},
+	"peacock.color": "#d49577"
+}
