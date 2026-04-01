@@ -1,8 +1,9 @@
 name: Build, Push and Scan with Docker Scout
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 env:
   REGISTRY: docker.io
@@ -14,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: read
+      contents: write
       security-events: write
 
     steps:
@@ -30,13 +31,14 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Extract version from release tag
+      - name: Extract version from tag
         id: version
         run: |
-          VERSION=${{ github.event.release.tag_name }}
-          # Remove 'v' prefix if present
-          VERSION=${VERSION#v}
+          TAG=${{ github.ref }}
+          # Extract version from refs/tags/vX.X.X
+          VERSION=${TAG#refs/tags/v}
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG#refs/tags/}" >> $GITHUB_OUTPUT
           echo "Release version: ${VERSION}"
 
       - name: Build and push Docker image
@@ -71,3 +73,35 @@ jobs:
           command: cves
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           write-comment: false
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: Release ${{ steps.version.outputs.tag }}
+          body: |
+            # Release ${{ steps.version.outputs.tag }}
+
+            ## Docker Image Published
+
+            This release publishes the Docker image to Docker Hub:
+
+            **Organization:** bluewhale
+            **Image:** ${{ env.IMAGE_NAME }}
+            **Version:** ${{ steps.version.outputs.version }}
+            **Tags:**
+            - `${{ steps.version.outputs.version }}`
+            - `latest`
+
+            ## Security Scan
+
+            This image has been scanned with Docker Scout for vulnerabilities.
+            See the Security tab for detailed scan results.
+
+            ## Docker Hub Link
+
+            https://hub.docker.com/r/${{ env.IMAGE_NAME }}/tags?name=${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
